@@ -10,10 +10,10 @@
     <AssemblyTitle>Remote Shutdown Server</AssemblyTitle>
     <AssemblyDescription>Remote Shutdown Server with Web GUI and System Tray</AssemblyDescription>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <FileVersion>2.1.1</FileVersion>
     <Product>Remote Shutdown Server</Product>
     <Company>Remote Shutdown Server</Company>
-    <Copyright>Copyright © 2024</Copyright>
+    <Copyright>Copyright © 2025</Copyright>
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -29,7 +29,29 @@
   <ItemGroup>
     <None Update="shutdown.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PublishSingleFileOnBuild>false</PublishSingleFileOnBuild>
+    <SingleFilePublishDir>$(MSBuildProjectDirectory)\publish\single-file\</SingleFilePublishDir>
+  </PropertyGroup>
+
+  <Target Name="PostBuild_SingleFilePublish"
+          AfterTargets="Build"
+          Condition=" '$(Configuration)' == 'Release' and '$(PublishSingleFileOnBuild)' == 'true' ">
+    <Message Text="Publishing single-file to $(SingleFilePublishDir)" Importance="high" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)"
+             Targets="Publish"
+             Properties="Configuration=$(Configuration);RuntimeIdentifier=$(RuntimeIdentifier);PublishSingleFile=true;SelfContained=true;EnableCompressionInSingleFile=true;PublishReadyToRun=true;IncludeNativeLibrariesForSelfExtract=true;DebugType=None;DebugSymbols=false;PublishDir=$(SingleFilePublishDir)" />
+  </Target>
 
 </Project>
