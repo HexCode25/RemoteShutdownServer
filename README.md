@@ -31,6 +31,10 @@ A powerful Windows application that allows you to remotely control your computer
 2. Install
 3. Run `RemoteShutdownServer.exe`
 
+## 📜 Changelog
+
+See the full changelog here: [CHANGELOG.md](./CHANGELOG.md)
+
 ## 🐛 Troubleshooting
 
 ### Common Issues
